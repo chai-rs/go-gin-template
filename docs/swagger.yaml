@@ -1,0 +1,406 @@
+definitions:
+  book.CreateBookDTO:
+    properties:
+      author:
+        type: string
+      genre_code:
+        type: string
+      release_date:
+        type: string
+      tag_codes:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+    required:
+    - author
+    - genre_code
+    - release_date
+    - tag_codes
+    - title
+    type: object
+  book.UpdateBookDTO:
+    properties:
+      author:
+        type: string
+      genre_code:
+        type: string
+      release_date:
+        type: string
+      tag_codes:
+        items:
+          type: string
+        type: array
+      title:
+        type: string
+    required:
+    - author
+    - genre_code
+    - release_date
+    - tag_codes
+    - title
+    type: object
+  model.Book:
+    properties:
+      author:
+        type: string
+      createdAt:
+        type: string
+      genre:
+        $ref: '#/definitions/model.Genre'
+      id:
+        type: string
+      releaseDate:
+        type: string
+      tags:
+        items:
+          $ref: '#/definitions/model.Tag'
+        type: array
+      title:
+        type: string
+    type: object
+  model.Genre:
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+    type: object
+  model.Tag:
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+    type: object
+  user.LoginRequestDTO:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  user.LoginResponseDTO:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+  user.RegisterRequestDTO:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  user.RegisterResponseDTO:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+  utils.Response:
+    properties:
+      error: {}
+      result: {}
+      success:
+        type: boolean
+    type: object
+info:
+  contact: {}
+paths:
+  /books:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve all books from the bookstore
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Book'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Get all books
+      tags:
+      - books
+    post:
+      consumes:
+      - application/json
+      description: Add a new book to the bookstore
+      parameters:
+      - description: Book information
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/book.CreateBookDTO'
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Create a new book
+      tags:
+      - books
+  /books/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove a book from the bookstore
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Delete a book
+      tags:
+      - books
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a book by its UUID
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Get a book by ID
+      tags:
+      - books
+    put:
+      consumes:
+      - application/json
+      description: Update an existing book's information
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated book information
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/book.UpdateBookDTO'
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Update a book
+      tags:
+      - books
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate a user and return access and refresh tokens
+      parameters:
+      - description: Login credentials
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/user.LoginRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.LoginResponseDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Login user
+      tags:
+      - users
+  /users/logout:
+    post:
+      consumes:
+      - application/json
+      description: Logout a user and delete access and refresh tokens
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Logout user
+      tags:
+      - users
+  /users/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Refresh a user's access token
+      parameters:
+      - description: Bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.LoginResponseDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Refresh user token
+      tags:
+      - users
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user and return access and refresh tokens
+      parameters:
+      - description: User registration data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/user.RegisterRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.RegisterResponseDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.Response'
+      summary: Register new user
+      tags:
+      - users
+swagger: "2.0"
