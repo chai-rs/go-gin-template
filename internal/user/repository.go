@@ -8,12 +8,14 @@ import (
 	"gorm.io/gorm"
 )
 
+// Repository represents the user repository interface.
 type Repository interface {
 	Create(ctx context.Context, user *model.User) error
 	GetByEmail(ctx context.Context, email string) (*model.User, error)
 	GetByID(ctx context.Context, id string) (*model.User, error)
 }
 
+// repository implements the Repository interface.
 type repository struct {
 	db *gorm.DB
 }

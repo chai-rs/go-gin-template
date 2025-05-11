@@ -11,6 +11,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// TokenManager defines methods for JWT token operations.
 type TokenManager interface {
 	CreateToken(userId, email string) (*TokenProperties, error)
 	ExtractTokenMetadata(*http.Request) (*AccessProperties, error)
@@ -18,10 +19,12 @@ type TokenManager interface {
 
 type tokenManager struct{}
 
+// NewTokenManager creates a new TokenManager instance.
 func NewTokenManager() TokenManager {
 	return &tokenManager{}
 }
 
+// CreateToken generates new access and refresh tokens for a user.
 func (t *tokenManager) CreateToken(userId, email string) (*TokenProperties, error) {
 	properties := new(TokenProperties)
 
@@ -59,10 +62,12 @@ func (t *tokenManager) CreateToken(userId, email string) (*TokenProperties, erro
 	return properties, nil
 }
 
+// ExtractTokenMetadata extracts token metadata from HTTP request.
 func (t *tokenManager) ExtractTokenMetadata(r *http.Request) (*AccessProperties, error) {
 	return ExtractTokenMetadata(r)
 }
 
+// TokenValid checks if the token in the request is valid.
 func TokenValid(r *http.Request) error {
 	token, err := VerifyAuthorizationHeader(r)
 	if err != nil {
@@ -76,11 +81,13 @@ func TokenValid(r *http.Request) error {
 	return nil
 }
 
+// VerifyAuthorizationHeader verifies and parses the Authorization header.
 func VerifyAuthorizationHeader(r *http.Request) (*jwt.Token, error) {
 	tokenString := ExtractToken(r)
 	return VerifyToken(tokenString)
 }
 
+// VerifyToken verifies and parses a JWT token string.
 func VerifyToken(tokenString string) (*jwt.Token, error) {
 	token, err := jwt.Parse(tokenString, func(t *jwt.Token) (any, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -97,6 +104,7 @@ func VerifyToken(tokenString string) (*jwt.Token, error) {
 	return token, nil
 }
 
+// ExtractToken retrieves the JWT token from the Authorization header.
 func ExtractToken(r *http.Request) string {
 	bearToken := r.Header.Get("Authorization")
 	strArr := strings.Split(bearToken, " ")
@@ -107,6 +115,7 @@ func ExtractToken(r *http.Request) string {
 	return ""
 }
 
+// Extract retrieves access properties from a JWT token.
 func Extract(token *jwt.Token) (*AccessProperties, error) {
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
@@ -137,6 +146,8 @@ func Extract(token *jwt.Token) (*AccessProperties, error) {
 	return properties, nil
 }
 
+// ExtractTokenMetadata extracts token metadata from HTTP request.
+// This is a package-level function that implements the TokenManager interface.
 func ExtractTokenMetadata(r *http.Request) (*AccessProperties, error) {
 	token, err := VerifyAuthorizationHeader(r)
 	if err != nil {

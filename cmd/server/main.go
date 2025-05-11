@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -16,6 +17,7 @@ import (
 	"github.com/0xanonydxck/simple-bookstore/infrastructure/db"
 	_ "github.com/0xanonydxck/simple-bookstore/infrastructure/logger"
 	eval "github.com/0xanonydxck/simple-bookstore/pkg/validator"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
@@ -44,6 +46,14 @@ func main() {
 
 	// Setup middleware
 	app.Use(logger.SetLogger())
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     strings.Split(config.CORS_ALLOWED_ORIGINS, ","),
+		AllowMethods:     strings.Split(config.CORS_ALLOWED_METHODS, ","),
+		AllowHeaders:     strings.Split(config.CORS_ALLOWED_HEADERS, ","),
+		ExposeHeaders:    strings.Split(config.CORS_EXPOSED_HEADERS, ","),
+		MaxAge:           time.Duration(config.CORS_MAX_AGE),
+		AllowCredentials: true,
+	}))
 
 	// Setup enforcer
 	enforcer := auth.NewAuthEnforcer(auth.GormAdapter(db.PostgreSQL()))
@@ -59,12 +69,14 @@ func main() {
 		Handler: app.Handler(),
 	}
 
+	// Start server
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatal().Err(err).Msg("🚨 failed to start server")
 		}
 	}()
 
+	// Wait for signal to stop server
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
@@ -73,14 +85,17 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	// Shutdown server
 	if err := server.Shutdown(ctx); err != nil {
 		log.Fatal().Err(err).Msg("🚨 failed to shutdown server")
 	}
 
+	// Wait for server to exit
 	<-ctx.Done()
 	log.Info().Msg("👋 server exited properly")
 }
 
+// Setup swagger
 func setupSwagger(app *gin.Engine) {
 	docs.SwaggerInfo.BasePath = "/api"
 	docs.SwaggerInfo.Title = "Simple Bookstore API"
@@ -91,6 +106,7 @@ func setupSwagger(app *gin.Engine) {
 	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
 
+// Setup validator
 func setupValidator() {
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		v.RegisterValidation("date_valid", eval.DateValid)

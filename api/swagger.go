@@ -8,11 +8,13 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// BindSwaggerRoutes registers the /reference endpoint for serving the API reference UI.
 func BindSwaggerRoutes(app *gin.Engine) {
 	router := app.Group("")
 	bindSwaggerRoutes(router)
 }
 
+// bindSwaggerRoutes sets up the /reference route that serves the Swagger UI.
 func bindSwaggerRoutes(router *gin.RouterGroup) {
 	router.GET("/reference", func(ctx *gin.Context) {
 		htmlContent, err := scalar.ApiReferenceHTML(&scalar.Options{

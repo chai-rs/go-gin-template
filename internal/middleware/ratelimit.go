@@ -6,6 +6,7 @@ import (
 	mgin "github.com/ulule/limiter/v3/drivers/middleware/gin"
 )
 
+// RateLimitMiddleware returns a middleware that limits the number of requests per user.
 func RateLimitMiddleware(limiter *limiter.Limiter) gin.HandlerFunc {
 	return mgin.NewMiddleware(limiter)
 }

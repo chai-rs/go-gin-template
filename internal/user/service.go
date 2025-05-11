@@ -11,6 +11,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// Service represents the user service interface.
 type Service interface {
 	Login(ctx context.Context, email string, password string) (string, string, error)
 	Register(ctx context.Context, user *model.User) (string, string, error)
@@ -18,6 +19,7 @@ type Service interface {
 	RefreshToken(ctx context.Context, refreshToken string) (string, string, error)
 }
 
+// service implements the Service interface
 type service struct {
 	repo         Repository
 	auth         auth.Auth

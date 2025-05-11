@@ -12,6 +12,12 @@ var (
 	PORT       int
 	LIMIT_RATE string
 
+	CORS_ALLOWED_ORIGINS string
+	CORS_ALLOWED_METHODS string
+	CORS_ALLOWED_HEADERS string
+	CORS_EXPOSED_HEADERS string
+	CORS_MAX_AGE         int
+
 	REDIS_HOST     string
 	REDIS_PORT     string
 	REDIS_PASSWORD string
@@ -34,6 +40,15 @@ func Init() {
 	PORT, err = strconv.Atoi(os.Getenv("PORT"))
 	if err != nil {
 		log.Fatal().Err(err).Msg("🚨 failed to convert PORT to int")
+	}
+
+	CORS_ALLOWED_ORIGINS = os.Getenv("CORS_ALLOWED_ORIGINS")
+	CORS_ALLOWED_METHODS = os.Getenv("CORS_ALLOWED_METHODS")
+	CORS_ALLOWED_HEADERS = os.Getenv("CORS_ALLOWED_HEADERS")
+	CORS_EXPOSED_HEADERS = os.Getenv("CORS_EXPOSED_HEADERS")
+	CORS_MAX_AGE, err = strconv.Atoi(os.Getenv("CORS_MAX_AGE"))
+	if err != nil {
+		log.Fatal().Err(err).Msg("🚨 failed to convert CORS_MAX_AGE to int")
 	}
 
 	REDIS_HOST = os.Getenv("REDIS_HOST")

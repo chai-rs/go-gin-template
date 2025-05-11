@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// Book represents a book.
 type Book struct {
 	ID          uuid.UUID  `gorm:"column:id;primaryKey"`
 	Title       string     `gorm:"column:title"`
@@ -22,6 +23,7 @@ func (b *Book) TableName() string {
 	return "books"
 }
 
+// Genre represents a genre.
 type Genre struct {
 	Code string `gorm:"column:code;primaryKey;unique"`
 	Name string `gorm:"column:name"`
@@ -31,6 +33,7 @@ func (g *Genre) TableName() string {
 	return "genres"
 }
 
+// Tag represents a tag.
 type Tag struct {
 	Code string `gorm:"column:code;primaryKey;unique"`
 	Name string `gorm:"column:name"`

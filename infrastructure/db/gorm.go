@@ -14,6 +14,7 @@ var (
 	once     sync.Once
 )
 
+// PostgreSQLConnect connects to the PostgreSQL database.
 func PostgreSQLConnect(host, port, user, password, db string) *gorm.DB {
 	once.Do(func() {
 		var err error
@@ -27,6 +28,7 @@ func PostgreSQLConnect(host, port, user, password, db string) *gorm.DB {
 	return postgres
 }
 
+// PostgreSQL returns the PostgreSQL database connection.
 func PostgreSQL() *gorm.DB {
 	return postgres
 }

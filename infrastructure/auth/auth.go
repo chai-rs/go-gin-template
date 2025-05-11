@@ -9,7 +9,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-// obj
+// AuthObject represents a resource type for authorization.
 type AuthObject string
 
 func (o AuthObject) String() string {
@@ -20,7 +20,7 @@ const (
 	Resource = AuthObject("resource")
 )
 
-// act
+// AuthAction represents an action for authorization.
 type AuthAction string
 
 func (a AuthAction) String() string {
@@ -32,12 +32,14 @@ const (
 	Read  = AuthAction("read")
 )
 
+// AccessProperties holds information about a user's token.
 type AccessProperties struct {
 	TokenUUID string
 	UserID    string
 	Email     string
 }
 
+// TokenProperties contains details for access and refresh tokens.
 type TokenProperties struct {
 	AccessToken        string
 	RefreshToken       string
@@ -47,6 +49,7 @@ type TokenProperties struct {
 	RefreshTokenExpire int64
 }
 
+// Auth defines methods for authentication storage.
 type Auth interface {
 	CreateAuth(ctx context.Context, userId string, properties *TokenProperties) error
 	FetchAuth(ctx context.Context, userId string) (string, error)
@@ -54,10 +57,12 @@ type Auth interface {
 	DeleteAccessToken(ctx context.Context, properties *AccessProperties) error
 }
 
+// RedisAuth implements Auth using Redis as backend.
 type RedisAuth struct {
 	client *redis.Client
 }
 
+// NewRedisAuth creates a new RedisAuth instance.
 func NewRedisAuth(client *redis.Client) *RedisAuth {
 	return &RedisAuth{client}
 }
@@ -125,10 +130,12 @@ func (r *RedisAuth) DeleteRefreshToken(ctx context.Context, refreshUUID string) 
 	return nil
 }
 
+// MemoryAuth implements Auth using an in-memory map (for testing or local usage).
 type MemoryAuth struct {
 	storage sync.Map
 }
 
+// NewMemoryAuth creates a new MemoryAuth instance.
 func NewMemoryAuth() *MemoryAuth {
 	return &MemoryAuth{}
 }
@@ -158,6 +165,7 @@ func (m *MemoryAuth) DeleteRefreshToken(ctx context.Context, refreshUUID string)
 	return nil
 }
 
+// ToRefreshUUID generates a unique key for the refresh token using token UUID and user ID.
 func ToRefreshUUID(tokenUUID, userId string) string {
 	return fmt.Sprintf("%s++%s", tokenUUID, userId)
 }

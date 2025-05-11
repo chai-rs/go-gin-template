@@ -6,6 +6,7 @@ import (
 	"github.com/ulule/limiter/v3/drivers/store/memory"
 )
 
+// NewMemoryLimiter creates a new limiter using memory store.
 func NewMemoryLimiter(format string) *limiter.Limiter {
 	rate, err := limiter.NewRateFromFormatted(format)
 	if err != nil {

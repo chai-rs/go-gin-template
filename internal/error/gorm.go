@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// PostgresError represents a postgres error.
 type PostgresError struct {
 	Code    string `json:"Code"`
 	Message string `json:"Message"`

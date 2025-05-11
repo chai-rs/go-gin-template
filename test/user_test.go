@@ -17,17 +17,20 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
+// TestUserSuite runs the user suite.
 func TestUserSuite(t *testing.T) {
 	suite.Run(t, new(TestUserRegister_Successful))
 	suite.Run(t, new(TestUserLogin_Successful))
 }
 
+// UserSuite runs the user suite.
 type UserSuite struct {
 	BaseSuite
 	router  *gin.Engine
 	service user.Service
 }
 
+// BeforeTest runs before each test.
 func (s *UserSuite) BeforeTest(suiteName, testName string) {
 	repo := user.NewRepository(s.db)
 	enforcer := auth.NewAuthEnforcer(auth.GormAdapter(s.db), &auth.AuthEnforcerOpts{
@@ -43,8 +46,10 @@ func (s *UserSuite) BeforeTest(suiteName, testName string) {
 	s.router.POST("/login", hdl.Login)
 }
 
+// TestUserRegister_Successful tests the user register successful.
 type TestUserRegister_Successful struct{ UserSuite }
 
+// TestUserRegister_Successful tests the user register successful.
 func (s *TestUserRegister_Successful) TestUserRegister_Successful() {
 	body := user.RegisterRequestDTO{
 		Email:    "test@example.com",
@@ -63,8 +68,10 @@ func (s *TestUserRegister_Successful) TestUserRegister_Successful() {
 	assert.Equal(s.T(), http.StatusCreated, w.Code)
 }
 
+// TestUserLogin_Successful tests the user login successful.
 type TestUserLogin_Successful struct{ UserSuite }
 
+// BeforeTest runs before each test.
 func (s *TestUserLogin_Successful) BeforeTest(suiteName, testName string) {
 	s.UserSuite.BeforeTest(suiteName, testName)
 
@@ -80,6 +87,7 @@ func (s *TestUserLogin_Successful) BeforeTest(suiteName, testName string) {
 	assert.NoError(s.T(), err)
 }
 
+// TestUserLogin_Successful tests the user login successful.
 func (s *TestUserLogin_Successful) TestUserLogin_Successful() {
 	body := user.LoginRequestDTO{
 		Email:    "test@example.com",

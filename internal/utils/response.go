@@ -7,12 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Response represents the response structure.
 type Response struct {
 	Success bool `json:"success"`
 	Error   any  `json:"error,omitempty"`
 	Result  any  `json:"result,omitempty"`
 }
 
+// ResponseOk sends a success response.
 func ResponseOk(c *gin.Context, data any) {
 	c.JSON(http.StatusOK, Response{
 		Success: true,
@@ -20,6 +22,7 @@ func ResponseOk(c *gin.Context, data any) {
 	})
 }
 
+// ResponseCreated sends a created response.
 func ResponseCreated(c *gin.Context, data any) {
 	c.JSON(http.StatusCreated, Response{
 		Success: true,
@@ -27,10 +30,12 @@ func ResponseCreated(c *gin.Context, data any) {
 	})
 }
 
+// ResponseErrorWithStatus sends an error response with a specific status.
 func ResponseErrorWithStatus(c *gin.Context, status int, errorMessage string) {
 	c.JSON(status, Response{Success: false, Error: errorMessage})
 }
 
+// ResponseError sends an error response.
 func ResponseError(c *gin.Context, err error) {
 	switch e := err.(type) {
 	case *errs.AppError:

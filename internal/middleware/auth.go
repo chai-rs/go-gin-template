@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AuthMiddleware checks if the user is authenticated.
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		err := auth.TokenValid(c.Request)
@@ -21,6 +22,7 @@ func AuthMiddleware() gin.HandlerFunc {
 	}
 }
 
+// Authorize checks if the user is authorized.
 func Authorize(obj auth.AuthObject, act auth.AuthAction, enforcer auth.AuthEnforcer) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		err := auth.TokenValid(c.Request)

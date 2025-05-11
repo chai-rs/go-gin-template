@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// GormAdapter creates a new adapter for Casbin using GORM.
 func GormAdapter(db *gorm.DB) persist.Adapter {
 	adapter, err := gormadapter.NewAdapterByDB(db)
 	if err != nil {
