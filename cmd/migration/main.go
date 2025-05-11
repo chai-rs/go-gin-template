@@ -1,25 +1,36 @@
 package main
 
 import (
+	"github.com/0xanonydxck/simple-bookstore/config"
 	_ "github.com/0xanonydxck/simple-bookstore/infrastructure/logger"
-	"github.com/golang-migrate/migrate/v4"
+	"github.com/0xanonydxck/simple-bookstore/pkg/migration"
 	_ "github.com/golang-migrate/migrate/v4/database/sqlite3"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/rs/zerolog/log"
 )
 
+const FILE = "db/migrations"
+
+var migrator migration.DatabaseMigration
+
+func init() {
+	config.Init()
+}
+
 func main() {
-	m, err := migrate.New(
-		"file://db/migrations",
-		"sqlite3://data.sqlite",
-	)
-	if err != nil {
-		log.Fatal().Err(err).Msg("💣 Failed to create migration")
+	input := &migration.PostgresMigrationInput{
+		Username: config.POSTGRES_USER,
+		Password: config.POSTGRES_PASSWORD,
+		Host:     config.POSTGRES_HOST,
+		Port:     config.POSTGRES_PORT,
+		DBName:   config.POSTGRES_DB,
+		File:     FILE,
 	}
 
-	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
-		log.Fatal().Err(err).Msg("💣 Failed to apply migration")
+	migrator = migration.NewPostgresMigration(input)
+	if err := migrator.Up(); err != nil {
+		log.Fatal().Err(err).Str("file", input.MigrationFile()).Str("url", input.URL()).Msg("🚨 failed to migrate")
 	}
 
-	log.Info().Msg("✅ Migration applied successfully.")
+	log.Info().Str("file", input.MigrationFile()).Str("url", input.URL()).Msg("🚀 migrated successfully")
 }

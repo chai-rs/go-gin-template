@@ -1,12 +1,12 @@
--- Enable foreign key support in SQLite
-PRAGMA foreign_keys = ON;
+-- Enable the pgcrypto extension for UUID generation
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- User table
 CREATE TABLE users (
-    id                TEXT PRIMARY KEY,
+    id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email             TEXT NOT NULL UNIQUE,
     hashed_password   TEXT NOT NULL,
-    created_at        DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at        TIMESTAMP DEFAULT now()
 );
 
 -- Genre table
@@ -23,18 +23,18 @@ CREATE TABLE tags (
 
 -- Book table
 CREATE TABLE books (
-    id           TEXT PRIMARY KEY,
+    id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title        TEXT NOT NULL,
     author       TEXT NOT NULL,
     genre_code   TEXT,
-    release_date DATETIME,
-    created_at   DATETIME DEFAULT CURRENT_TIMESTAMP,
+    release_date TIMESTAMP,
+    created_at   TIMESTAMP DEFAULT now(),
     FOREIGN KEY (genre_code) REFERENCES genres(code) ON DELETE SET NULL
 );
 
 -- Join table for many-to-many book-tags
 CREATE TABLE book_tags (
-    book_id TEXT NOT NULL,
+    book_id UUID NOT NULL,
     tag_code TEXT NOT NULL,
     PRIMARY KEY (book_id, tag_code),
     FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE,

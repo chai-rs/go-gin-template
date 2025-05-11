@@ -4,6 +4,3 @@ DROP TABLE IF EXISTS books;
 DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS genres;
 DROP TABLE IF EXISTS users;
-
--- Disable foreign key support
-PRAGMA foreign_keys = OFF;

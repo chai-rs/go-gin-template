@@ -22,7 +22,7 @@ func BindRoutes(router *gin.Engine, enforcer auth.AuthEnforcer) {
 // bindBookRoutes registers all book-related routes to the API router group
 func bindBookRoutes(api *gin.RouterGroup, enforcer auth.AuthEnforcer) {
 	router := api.Group("/books")
-	hdl := book.NewHandler(book.NewService(book.NewRepository(db.SQLite())))
+	hdl := book.NewHandler(book.NewService(book.NewRepository(db.PostgreSQL())))
 
 	router.POST("", middleware.Authorize(auth.Resource, auth.Write, enforcer), hdl.CreateBook)
 	router.GET("", middleware.Authorize(auth.Resource, auth.Read, enforcer), hdl.GetBooks)
@@ -35,7 +35,7 @@ func bindBookRoutes(api *gin.RouterGroup, enforcer auth.AuthEnforcer) {
 func bindUserRoutes(authorized, unauthorized *gin.RouterGroup, enforcer auth.AuthEnforcer) {
 	hdl := user.NewHandler(
 		user.NewService(
-			user.NewRepository(db.SQLite()),
+			user.NewRepository(db.PostgreSQL()),
 			auth.NewRedisAuth(db.Redis()),
 			auth.NewTokenManager(),
 			enforcer,

@@ -27,6 +27,14 @@ import (
 
 func init() {
 	config.Init()
+	db.PostgreSQLConnect(
+		config.POSTGRES_HOST,
+		config.POSTGRES_PORT,
+		config.POSTGRES_USER,
+		config.POSTGRES_PASSWORD,
+		config.POSTGRES_DB,
+	)
+
 	setupValidator()
 }
 
@@ -39,7 +47,7 @@ func main() {
 	app.Use(logger.SetLogger())
 
 	// Setup enforcer
-	enforcer := auth.NewAuthEnforcer(auth.SQLiteAdapter(db.SQLite()))
+	enforcer := auth.NewAuthEnforcer(auth.GormAdapter(db.PostgreSQL()))
 
 	// Bind routes
 	api.BindRoutes(app, enforcer)

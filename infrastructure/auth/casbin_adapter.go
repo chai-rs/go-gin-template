@@ -7,10 +7,10 @@ import (
 	"gorm.io/gorm"
 )
 
-func SQLiteAdapter(db *gorm.DB) persist.Adapter {
+func GormAdapter(db *gorm.DB) persist.Adapter {
 	adapter, err := gormadapter.NewAdapterByDB(db)
 	if err != nil {
-		log.Fatal().Err(err).Msg("💣 failed to create sqlite adapter")
+		log.Fatal().Err(err).Msg("💣 failed to create gorm adapter")
 	}
 
 	return adapter
