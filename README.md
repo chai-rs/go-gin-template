@@ -11,6 +11,8 @@ A modular, testable, and containerized backend for a simple bookstore, built wit
   - [Setup \& Installation](#setup--installation)
   - [Configuration](#configuration)
   - [Running the Application](#running-the-application)
+  - [Environment Configuration](#environment-configuration)
+  - [Docker Compose Services](#docker-compose-services)
   - [Testing](#testing)
   - [API Documentation](#api-documentation)
   - [Key Components](#key-components)
@@ -55,7 +57,7 @@ backend/
 
 1. **Clone the repository:**
    ```sh
-   git clone <your-repo-url>
+   git clone https://github.com/0xanonydxck/go-gin-template.git
    cd backend
    ```
 
