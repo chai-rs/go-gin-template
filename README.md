@@ -88,7 +88,33 @@ backend/
 go run ./cmd/server
 ```
 
-Or use Docker Compose (if available).
+Or use Docker Compose:
+
+```sh
+docker-compose --env-file .docker.env up --build
+```
+
+- The application will be available at http://localhost:8000
+- Only the server port is exposed; Redis and Postgres are accessible only within the Docker network.
+- Environment variables for Compose are managed in `.docker.env` (see below).
+
+---
+
+## Environment Configuration
+
+- `.env` is for local development (e.g., running with `go run` on your host).
+- `.docker.env` is for Docker Compose. Service hostnames must match the Compose service names (`backend-postgres`, `backend-redis`).
+- See `.example.env` for all available variables and their expected values.
+
+---
+
+## Docker Compose Services
+
+- **backend-server**: Your Go app, built from `/cmd/server`.
+- **backend-postgres**: PostgreSQL 17, data stored in `pgdata` volume.
+- **backend-redis**: Redis 7, data stored in `redisdata` volume.
+
+All services are connected via the `bookstore-network` for secure internal communication.
 
 ---
 

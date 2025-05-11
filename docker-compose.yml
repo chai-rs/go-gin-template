@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend-server
+    env_file:
+      - .docker.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres-1
+      - redis
+    networks:
+      - bookstore-network
+    restart: unless-stopped
+
+  postgres-1:
+    image: postgres:17
+    container_name: backend-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - bookstore-network
+
+  redis:
+    image: redis:7
+    container_name: backend-redis
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    volumes:
+      - redisdata:/data
+    restart: unless-stopped
+    networks:
+      - bookstore-network
+
+networks:
+  bookstore-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+  redisdata:
