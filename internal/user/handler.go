@@ -74,7 +74,7 @@ func (h *Handler) Register(c *gin.Context) {
 		return
 	}
 
-	utils.ResponseOk(c, RegisterResponseDTO{
+	utils.ResponseCreated(c, RegisterResponseDTO{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	})

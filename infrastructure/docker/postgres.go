@@ -2,6 +2,8 @@ package docker
 
 import (
 	"fmt"
+	syslog "log"
+	"os"
 	"time"
 
 	"github.com/0xanonydxck/simple-bookstore/pkg/migration"
@@ -10,6 +12,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 const (
@@ -39,7 +42,7 @@ func RunPostgresContainer(secondToKill uint) (*dockertest.Pool, *dockertest.Reso
 			"5432/tcp": {
 				{
 					HostIP:   "0.0.0.0",
-					HostPort: "0",
+					HostPort: "0", // 0 = random port
 				},
 			},
 		},
@@ -73,7 +76,21 @@ func OpenPostgresGormDB(pool *dockertest.Pool, resource *dockertest.Resource) (*
 	port := resource.GetPort("5432/tcp")
 	url := fmt.Sprintf(dns, host, port, PostgresUser, PostgresPassword, PostgresDB)
 
-	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
+	gormLogger := logger.New(
+		syslog.New(os.Stdout, "\r\n", syslog.LstdFlags), // io writer
+		logger.Config{
+			SlowThreshold:             time.Second,   // Slow SQL threshold
+			LogLevel:                  logger.Silent, // Log level
+			IgnoreRecordNotFoundError: true,          // Ignore ErrRecordNotFound error for logger
+			ParameterizedQueries:      true,          // Don't include params in the SQL log
+			Colorful:                  false,         // Disable color
+		},
+	)
+
+	db, err := gorm.Open(postgres.Open(url), &gorm.Config{
+		Logger: gormLogger,
+	})
+
 	for err != nil {
 		if retries > 1 {
 			retries--
@@ -94,14 +111,14 @@ func OpenPostgresGormDB(pool *dockertest.Pool, resource *dockertest.Resource) (*
 
 // ! used for testing only:
 // MigratePostgreSQL migrates the postgres container
-func MigratePostgreSQL(pool *dockertest.Pool, resource *dockertest.Resource) error {
+func MigratePostgreSQL(pool *dockertest.Pool, resource *dockertest.Resource, migrationDir string) error {
 	input := migration.PostgresMigrationInput{
 		Username: PostgresUser,
 		Password: PostgresPassword,
 		Host:     resource.GetBoundIP("5432/tcp"),
 		Port:     resource.GetPort("5432/tcp"),
 		DBName:   PostgresDB,
-		File:     "db/migrations",
+		File:     migrationDir,
 	}
 
 	retries := 10

@@ -18,8 +18,21 @@ type authEnforcer struct {
 	enforcer *casbin.Enforcer
 }
 
-func NewAuthEnforcer(adapter persist.Adapter) *authEnforcer {
-	enforcer, err := casbin.NewEnforcer("auth_model.conf", adapter)
+type AuthEnforcerOpts struct {
+	ModelPath string
+}
+
+var DefaultAuthEnforcerOpts = &AuthEnforcerOpts{
+	ModelPath: "auth_model.conf",
+}
+
+func NewAuthEnforcer(adapter persist.Adapter, opts ...*AuthEnforcerOpts) *authEnforcer {
+	option := DefaultAuthEnforcerOpts
+	if len(opts) > 0 {
+		option = opts[0]
+	}
+
+	enforcer, err := casbin.NewEnforcer(option.ModelPath, adapter)
 	if err != nil {
 		log.Fatal().Err(err).Msg("💣 failed to create enforcer")
 	}
