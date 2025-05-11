@@ -9,7 +9,8 @@ import (
 )
 
 var (
-	PORT int
+	PORT       int
+	LIMIT_RATE string
 
 	REDIS_HOST     string
 	REDIS_PORT     string
@@ -29,6 +30,7 @@ var (
 func Init() {
 	var err error
 
+	LIMIT_RATE = os.Getenv("LIMIT_RATE")
 	PORT, err = strconv.Atoi(os.Getenv("PORT"))
 	if err != nil {
 		log.Fatal().Err(err).Msg("🚨 failed to convert PORT to int")

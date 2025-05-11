@@ -1,8 +1,10 @@
 package api
 
 import (
+	"github.com/0xanonydxck/simple-bookstore/config"
 	"github.com/0xanonydxck/simple-bookstore/infrastructure/auth"
 	"github.com/0xanonydxck/simple-bookstore/infrastructure/db"
+	"github.com/0xanonydxck/simple-bookstore/infrastructure/limiter"
 	"github.com/0xanonydxck/simple-bookstore/internal/book"
 	"github.com/0xanonydxck/simple-bookstore/internal/middleware"
 	"github.com/0xanonydxck/simple-bookstore/internal/user"
@@ -12,6 +14,8 @@ import (
 // BindRoutes registers all API routes to the given router
 func BindRoutes(router *gin.Engine, enforcer auth.AuthEnforcer) {
 	api := router.Group("/api")
+	api.Use(middleware.RateLimitMiddleware(limiter.NewMemoryLimiter(config.LIMIT_RATE)))
+
 	authorized := api.Group("", middleware.AuthMiddleware())
 	unauthorized := api.Group("")
 

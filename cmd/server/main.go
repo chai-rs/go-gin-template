@@ -38,7 +38,6 @@ func init() {
 	setupValidator()
 }
 
-// TODO: https://github.com/ulule/limiter.git
 func main() {
 	// Setup gin engine
 	app := gin.Default()
