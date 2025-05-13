@@ -42,7 +42,7 @@ func init() {
 
 func main() {
 	// Setup gin engine
-	app := gin.Default()
+	app := setupGin()
 
 	// Setup middleware
 	app.Use(logger.SetLogger())
@@ -93,6 +93,17 @@ func main() {
 	// Wait for server to exit
 	<-ctx.Done()
 	log.Info().Msg("👋 server exited properly")
+}
+
+// Setup Gin Engine
+func setupGin() *gin.Engine {
+	if config.MODE == config.ProductionMode {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
+	}
+
+	return gin.Default()
 }
 
 // Setup swagger
