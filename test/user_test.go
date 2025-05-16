@@ -9,9 +9,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/0xanonydxck/simple-bookstore/infrastructure/auth"
-	"github.com/0xanonydxck/simple-bookstore/internal/user"
-	"github.com/0xanonydxck/simple-bookstore/internal/utils"
+	"github.com/chai-rs/simple-bookstore/infrastructure/auth"
+	"github.com/chai-rs/simple-bookstore/internal/user"
+	"github.com/chai-rs/simple-bookstore/internal/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"

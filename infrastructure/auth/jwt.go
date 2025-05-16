@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/0xanonydxck/simple-bookstore/config"
+	"github.com/chai-rs/simple-bookstore/config"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 )

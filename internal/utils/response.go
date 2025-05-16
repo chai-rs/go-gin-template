@@ -3,7 +3,7 @@ package utils
 import (
 	"net/http"
 
-	errs "github.com/0xanonydxck/simple-bookstore/internal/error"
+	errs "github.com/chai-rs/simple-bookstore/internal/error"
 	"github.com/gin-gonic/gin"
 )
 

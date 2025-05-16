@@ -1,8 +1,8 @@
 package user
 
 import (
-	"github.com/0xanonydxck/simple-bookstore/infrastructure/auth"
-	"github.com/0xanonydxck/simple-bookstore/internal/utils"
+	"github.com/chai-rs/simple-bookstore/infrastructure/auth"
+	"github.com/chai-rs/simple-bookstore/internal/utils"
 	"github.com/gin-gonic/gin"
 )
 

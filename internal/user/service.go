@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/0xanonydxck/simple-bookstore/infrastructure/auth"
-	"github.com/0xanonydxck/simple-bookstore/internal/model"
-	"github.com/0xanonydxck/simple-bookstore/pkg/crypto"
+	"github.com/chai-rs/simple-bookstore/infrastructure/auth"
+	"github.com/chai-rs/simple-bookstore/internal/model"
+	"github.com/chai-rs/simple-bookstore/pkg/crypto"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 )

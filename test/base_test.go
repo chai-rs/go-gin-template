@@ -1,8 +1,8 @@
 package test
 
 import (
-	"github.com/0xanonydxck/simple-bookstore/config"
-	"github.com/0xanonydxck/simple-bookstore/infrastructure/docker"
+	"github.com/chai-rs/simple-bookstore/config"
+	"github.com/chai-rs/simple-bookstore/infrastructure/docker"
 	"github.com/ory/dockertest/v3"
 	"github.com/rs/zerolog/log"
 	"github.com/stretchr/testify/suite"

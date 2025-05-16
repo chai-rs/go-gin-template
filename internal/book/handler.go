@@ -3,7 +3,7 @@ package book
 import (
 	"net/http"
 
-	"github.com/0xanonydxck/simple-bookstore/internal/utils"
+	"github.com/chai-rs/simple-bookstore/internal/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )

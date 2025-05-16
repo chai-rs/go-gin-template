@@ -1,8 +1,8 @@
 package user
 
 import (
-	"github.com/0xanonydxck/simple-bookstore/internal/model"
-	"github.com/0xanonydxck/simple-bookstore/pkg/crypto"
+	"github.com/chai-rs/simple-bookstore/internal/model"
+	"github.com/chai-rs/simple-bookstore/pkg/crypto"
 )
 
 // LoginRequestDTO represents the request payload for user login.

@@ -3,8 +3,8 @@ package book
 import (
 	"context"
 
-	errs "github.com/0xanonydxck/simple-bookstore/internal/error"
-	"github.com/0xanonydxck/simple-bookstore/internal/model"
+	errs "github.com/chai-rs/simple-bookstore/internal/error"
+	"github.com/chai-rs/simple-bookstore/internal/model"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )

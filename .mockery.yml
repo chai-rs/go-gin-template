@@ -1,7 +1,7 @@
 all: False
 template: testify
 packages:
-  github.com/0xanonydxck/simple-bookstore/internal/book:
+  github.com/chai-rs/simple-bookstore/internal/book:
     config:
       dir: '{{.InterfaceDir}}'
       filename: 'mocks.go'
@@ -12,7 +12,7 @@ packages:
         configs:
           - filename: 'mock_repository.go'
             structname: 'MockRepository'
-  github.com/0xanonydxck/simple-bookstore/internal/user:
+  github.com/chai-rs/simple-bookstore/internal/user:
     config:
       dir: '{{.InterfaceDir}}'
       filename: 'mocks.go'
@@ -23,7 +23,7 @@ packages:
         configs:
           - filename: 'mock_repository.go'
             structname: 'MockRepository'
-  github.com/0xanonydxck/simple-bookstore/infrastructure/auth:
+  github.com/chai-rs/simple-bookstore/infrastructure/auth:
     config:
       dir: '{{.InterfaceDir}}'
       filename: 'mocks.go'

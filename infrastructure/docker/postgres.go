@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/0xanonydxck/simple-bookstore/pkg/migration"
+	"github.com/chai-rs/simple-bookstore/pkg/migration"
 	"github.com/ory/dockertest/v3"
 	"github.com/ory/dockertest/v3/docker"
 	"github.com/rs/zerolog/log"

@@ -3,7 +3,7 @@ package book
 import (
 	"context"
 
-	"github.com/0xanonydxck/simple-bookstore/internal/model"
+	"github.com/chai-rs/simple-bookstore/internal/model"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 )

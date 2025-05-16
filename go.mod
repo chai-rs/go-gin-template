@@ -1,4 +1,4 @@
-module github.com/0xanonydxck/simple-bookstore
+module github.com/chai-rs/simple-bookstore
 
 go 1.24.0
 

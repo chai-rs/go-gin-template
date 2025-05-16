@@ -1,13 +1,13 @@
 package api
 
 import (
-	"github.com/0xanonydxck/simple-bookstore/config"
-	"github.com/0xanonydxck/simple-bookstore/infrastructure/auth"
-	"github.com/0xanonydxck/simple-bookstore/infrastructure/db"
-	"github.com/0xanonydxck/simple-bookstore/infrastructure/limiter"
-	"github.com/0xanonydxck/simple-bookstore/internal/book"
-	"github.com/0xanonydxck/simple-bookstore/internal/middleware"
-	"github.com/0xanonydxck/simple-bookstore/internal/user"
+	"github.com/chai-rs/simple-bookstore/config"
+	"github.com/chai-rs/simple-bookstore/infrastructure/auth"
+	"github.com/chai-rs/simple-bookstore/infrastructure/db"
+	"github.com/chai-rs/simple-bookstore/infrastructure/limiter"
+	"github.com/chai-rs/simple-bookstore/internal/book"
+	"github.com/chai-rs/simple-bookstore/internal/middleware"
+	"github.com/chai-rs/simple-bookstore/internal/user"
 	"github.com/gin-gonic/gin"
 )
 

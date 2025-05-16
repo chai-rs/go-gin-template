@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/0xanonydxck/simple-bookstore/config"
-	_ "github.com/0xanonydxck/simple-bookstore/infrastructure/logger"
-	"github.com/0xanonydxck/simple-bookstore/pkg/migration"
+	"github.com/chai-rs/simple-bookstore/config"
+	_ "github.com/chai-rs/simple-bookstore/infrastructure/logger"
+	"github.com/chai-rs/simple-bookstore/pkg/migration"
 	_ "github.com/golang-migrate/migrate/v4/database/sqlite3"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/rs/zerolog/log"

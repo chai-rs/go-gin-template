@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/0xanonydxck/simple-bookstore/pkg/crypto"
+	"github.com/chai-rs/simple-bookstore/pkg/crypto"
 )
 
 func main() {

@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/0xanonydxck/simple-bookstore/internal/book"
-	errs "github.com/0xanonydxck/simple-bookstore/internal/error"
-	"github.com/0xanonydxck/simple-bookstore/internal/model"
+	"github.com/chai-rs/simple-bookstore/internal/book"
+	errs "github.com/chai-rs/simple-bookstore/internal/error"
+	"github.com/chai-rs/simple-bookstore/internal/model"
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
