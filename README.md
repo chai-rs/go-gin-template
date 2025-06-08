@@ -1,4 +1,4 @@
-# Simple Bookstore Backend
+# Golang Gin Template
 
 A modular, testable, and containerized backend for a simple bookstore, built with Go, Gin, GORM, and Docker. The project follows best practices for configuration, authentication, and integration testing.
 
