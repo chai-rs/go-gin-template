@@ -57,7 +57,7 @@ backend/
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/0xanonydxck/go-gin-template.git
+   git clone https://github.com/chai-rs/go-gin-template.git
    cd backend
    ```
 
