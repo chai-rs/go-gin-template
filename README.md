@@ -58,7 +58,7 @@ backend/
 1. **Clone the repository:**
    ```sh
    git clone https://github.com/chai-rs/go-gin-template.git
-   cd backend
+   cd go-gin-template
    ```
 
 2. **Copy and configure environment variables:**
